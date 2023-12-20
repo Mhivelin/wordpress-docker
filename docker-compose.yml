@@ -1,0 +1,82 @@
+version: '3.3'
+
+# declaration des services
+services:
+
+  # Conteneur avec l'image de wordpress
+  wordpress:
+
+    # image de wordpress
+    image: wordpress
+
+    # redemarrage automatique
+    restart: always
+
+    # variables d'environnement
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: azertysio
+      WORDPRESS_DB_NAME: wordpress
+      
+
+    # ports
+    ports:
+      - 8080:80
+
+    depends_on:
+      - db
+
+
+  # Conteneur avec l'image de db
+  db:
+
+    # image de mariadb
+    image: mariadb
+
+    # redemarrage automatique
+    restart: always
+
+    # variables d'environnement
+    environment:
+      MARIADB_ROOT_PASSWORD: azertysio
+      MARIADB_DATABASE: wordpress
+      MARIADB_USER: sio
+      MARIADB_PASSWORD: azertysio
+
+
+      
+
+
+    
+    ports:
+      - 3308:3306
+
+
+
+
+
+  # Conteneur avec l'image de phpmyadmin
+  phpmyadmin:
+
+    # image de phpmyadmin
+    image: phpmyadmin
+
+    # redemarrage automatique
+    restart: always
+
+    # variables d'environnement
+    environment:
+    # quel host
+      PMA_HOST: db
+
+    # utilisateur
+      #PMA_USER: sio
+
+
+
+    ports:
+      - 8081:80
+
+    depends_on:
+      - db
